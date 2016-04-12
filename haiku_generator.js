@@ -35,4 +35,4 @@ function addSyllableCount(linesArray){
 }
 
 
-haiku.createHaiku([5,7,5], textWithSyllableCount);
+haiku.createHaiku([[2,3],[2,3,2],[5]], textWithSyllableCount);
