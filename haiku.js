@@ -6,12 +6,15 @@
 function createHaiku(structure, text){
 	var finalPoem = [];
 	//for each line 
-	for(var i = 0; i < structure.length; i++){
-		for(var j = 0; j < structure[i].length; j++) {
-			var word = searchForMatchingWord(text, structure[i][j]);
-			console.log(word);
-			finalPoem.push(word); 	//add it to haiku array
+	for(var i = 0; i < structure.length; i++){ //for each line
+		var line = '';
+
+		for(var j = 0; j < structure[i].length; j++) { //for each syllable request
+			var word = searchForMatchingWord(text, structure[i][j]); //find a word with the text and current syllable count
+			line = line.concat(word + ' '); //add word to line
 		};
+
+		finalPoem.push(line); 	//add line to haiku array
 	}
 	//log haiku array join by line breaks
 	console.log(finalPoem.join("\n"));
