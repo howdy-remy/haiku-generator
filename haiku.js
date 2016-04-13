@@ -1,11 +1,5 @@
-//go through file and separate by line
-//if line has 1 number - push to index 0
-//if line has 2 numbers - push to index 1
-//...
-
 function createHaiku(structure, text){
 	var finalPoem = [];
-	//for each line 
 	for(var i = 0; i < structure.length; i++){ //for each line
 		var line = '';
 
@@ -21,11 +15,8 @@ function createHaiku(structure, text){
 }
 
 function searchForMatchingWord(text, syllables){
-	for (var i = 0; i < text.length; i++) {
-		if(text[i][0] === syllables){
-			return text[i][1];
-		}
-	};
+	randomIndex = Math.floor(Math.random() * text[syllables].length);	
+	return text[syllables][randomIndex];
 }
 
 module.exports = {

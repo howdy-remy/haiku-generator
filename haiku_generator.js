@@ -1,9 +1,9 @@
 var haiku = require('./haiku');
 
 //loading and parsing the file//
-var fs = require("fs");
-var cmudictFile = readCmudictFile('./cmudict.txt');
-var textWithSyllableCount = [];
+var fs = require("fs"),
+		cmudictFile = readCmudictFile('./cmudict.txt'),
+		textBySyllableCount = [];
 
 function readCmudictFile(file){
   return fs.readFileSync(file).toString();
@@ -14,25 +14,30 @@ function formatData(data){
       linesArray
   lines.forEach(function(line){    
   	linesArray = line.split("  "); 
-  	linesArray.unshift(addSyllableCount(linesArray));
-  	textWithSyllableCount.push(linesArray);
-	});    		
+  	sortBySyllable(linesArray);
+	});    
 }
 
 formatData(cmudictFile);
 //END loading and parsing the file//
 
-//sorting by syllable
-function addSyllableCount(linesArray){
-	//create an array that contains any matches
-	var matches = linesArray[1].match(/\d/g)
+function sortBySyllable(linesArray){
+	var matches = linesArray[1].match(/\d/g);
+	var sylbCount = (matches) ? matches.length : 0;
 
-	if(matches){ //a couple lines didn't have numbers that would break things. 
-		return matches.length;	//return the length of the array (number of syllables counted/matched)
-	} else {
-		return 0; //or none
+	if(!textBySyllableCount[sylbCount]){ //if there isn't a sub array for the current syllable amount
+		//figure out how many to add 
+		var subArraysNeeded = sylbCount - textBySyllableCount.length + 1;
+
+		//add that many
+		for(var i = subArraysNeeded; i > 0; i--){
+			textBySyllableCount.push([]);
+		}
 	}
+	
+	textBySyllableCount[sylbCount].push(linesArray[0]);
 }
 
 
-haiku.createHaiku([[2,3],[2,3,2],[5]], textWithSyllableCount);
+
+haiku.createHaiku([[2,3],[3,4],[5]], textBySyllableCount);
