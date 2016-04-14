@@ -3,7 +3,9 @@ var haiku = require('./haiku');
 //loading and parsing the file//
 var fs = require("fs"),
 		cmudictFile = readCmudictFile('./cmudict.txt'),
+		sylbArgs = JSON.parse(process.argv[2]),
 		textBySyllableCount = [];
+		// console.log(sylbArgs + ' is a/n ' + typeof sylbArgs);
 
 function readCmudictFile(file){
   return fs.readFileSync(file).toString();
@@ -14,13 +16,14 @@ function formatData(data){
       linesArray
   lines.forEach(function(line){    
   	linesArray = line.split("  "); 
-  	sortBySyllable(linesArray);
+  	sortBySyllable(linesArray); //
 	});    
 }
 
 formatData(cmudictFile);
 //END loading and parsing the file//
 
+//figure out the syllable count and push to subarray in sorted array by word count
 function sortBySyllable(linesArray){
 	var matches = linesArray[1].match(/\d/g);
 	var sylbCount = (matches) ? matches.length : 0;
@@ -38,6 +41,4 @@ function sortBySyllable(linesArray){
 	textBySyllableCount[sylbCount].push(linesArray[0]);
 }
 
-
-
-haiku.createHaiku([[2,3],[3,4],[5]], textBySyllableCount);
+haiku.createHaiku(sylbArgs, textBySyllableCount);
