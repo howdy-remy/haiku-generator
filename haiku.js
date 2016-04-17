@@ -22,3 +22,5 @@ function searchForMatchingWord(text, syllables){
 module.exports = {
 	createHaiku: createHaiku
 }
+
+

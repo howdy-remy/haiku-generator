@@ -1,19 +1,24 @@
-var haiku = require('./haiku');
+//THIS FILE GENERATES RANDOM HAIKU FROM DICTIONARY FILE
 
-//loading and parsing the file//
-var fs = require("fs"),
-		cmudictFile = readCmudictFile('./cmudict.txt'),
+//require modules
+var haiku = require('./haiku'),
+		syllable = require('syllable'),
+		fs = require("fs"),
+
+		cmudictFile = textFileToString('./cmudict.txt'),
 		sylbArgs = JSON.parse(process.argv[2]),
 		textBySyllableCount = [];
 		// console.log(sylbArgs + ' is a/n ' + typeof sylbArgs);
 
-function readCmudictFile(file){
+//loading and parsing the file//
+function textFileToString(file){
   return fs.readFileSync(file).toString();
 }
 
 function formatData(data){    
   var lines = data.toString().split("\n"),
       linesArray
+
   lines.forEach(function(line){    
   	linesArray = line.split("  "); 
   	sortBySyllable(linesArray); //
@@ -40,5 +45,6 @@ function sortBySyllable(linesArray){
 	
 	textBySyllableCount[sylbCount].push(linesArray[0]);
 }
+
 
 haiku.createHaiku(sylbArgs, textBySyllableCount);
